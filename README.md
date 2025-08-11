@@ -18,10 +18,16 @@ An educational Maven project demonstrating common code smells and their refactor
 This project serves as an educational resource for learning clean code principles through hands-on examples. Each code smell is demonstrated with:
 
 - ✅ Before and after code comparisons
-- ✅ Comprehensive documentation
 - ✅ Interactive console demonstrations
 - ✅ Unit tests showing improvements
-- ✅ Real-world use cases
+
+## 📋 Available Code Smells
+
+### Bloaters
+- **Long Method**: Extract Method refactoring to break down complex methods
+
+### Object-Oriented Abusers
+- **Switch Statements**: Replace Conditional with Polymorphism to eliminate switch statements
 
 ## 🔧 Prerequisites
 
@@ -55,6 +61,7 @@ clean-code/
     ├── bloaters/
     │   └── longmethod/
     ├── objectorientedabusers/
+    │   └── switchstatements/
     ├── changepreventers/
     ├── dispensables/
     ├── couplers/
@@ -143,6 +150,9 @@ mvn test
 ```bash
 # Long Method Code Smell
 mvn test -Dtest=LongMethodTest
+
+# Switch Statements Code Smell
+mvn test -Dtest=SwitchStatementsTest
 ```
 
 ## 🐛 Troubleshooting

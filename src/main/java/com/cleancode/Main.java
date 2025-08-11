@@ -2,10 +2,11 @@ package com.cleancode;
 
 import com.cleancode.bloaters.longmethod.LongMethodSmell;
 import com.cleancode.bloaters.longmethod.LongMethodRefactored;
+import com.cleancode.objectorientedabusers.switchstatements.SwitchStatementsSmell;
+import com.cleancode.objectorientedabusers.switchstatements.SwitchStatementsRefactored;
 import com.cleancode.domain.Customer;
 import com.cleancode.domain.Order;
 import com.cleancode.domain.OrderItem;
-import com.cleancode.domain.OrderStatus;
 
 /**
  * Main demonstration class for Clean Code examples.
@@ -25,7 +26,14 @@ public class Main {
         
         System.out.println("\n" + "=".repeat(50) + "\n");
         
-        demonstrateComparison();
+        demonstrateSwitchStatementsCodeSmell();
+        
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        
+        demonstrateSwitchStatementsRefactored();
+        
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        
     }
     
     /**
@@ -33,10 +41,7 @@ public class Main {
      */
     private static void demonstrateLongMethodCodeSmell() {
         System.out.println("🐛 LONG METHOD CODE SMELL");
-        System.out.println("-------------------------");
-        System.out.println("Problem: Method with 40+ lines handling multiple responsibilities");
-        System.out.println("Impact: Reduced readability, difficult testing, higher bug risk\n");
-        
+
         LongMethodSmell processor = new LongMethodSmell();
         
         // Create test data
@@ -57,12 +62,6 @@ public class Main {
         System.out.println("Order: " + order);
         System.out.println("Total: $" + order.getTotal());
         System.out.println("Status: " + order.getStatus());
-        
-        System.out.println("\n❌ Code Smell Issues:");
-        System.out.println("- Method handles validation, calculation, discount, and persistence");
-        System.out.println("- 40+ lines of code in single method");
-        System.out.println("- Difficult to test individual behaviors");
-        System.out.println("- Violates Single Responsibility Principle");
     }
     
     /**
@@ -70,10 +69,7 @@ public class Main {
      */
     private static void demonstrateLongMethodRefactored() {
         System.out.println("✅ LONG METHOD REFACTORED");
-        System.out.println("-------------------------");
-        System.out.println("Solution: Extract Method refactoring");
-        System.out.println("Benefits: Improved readability, enhanced testability, better maintainability\n");
-        
+
         LongMethodRefactored processor = new LongMethodRefactored();
         
         // Create test data
@@ -94,54 +90,46 @@ public class Main {
         System.out.println("Order: " + order);
         System.out.println("Total: $" + order.getTotal());
         System.out.println("Status: " + order.getStatus());
+    }
+    
+
+    
+    /**
+     * Demonstrates the Switch Statements code smell.
+     */
+    private static void demonstrateSwitchStatementsCodeSmell() {
+        System.out.println("🐛 SWITCH STATEMENTS CODE SMELL");
         
-        System.out.println("\n✅ Refactoring Benefits:");
-        System.out.println("- Main method reads like a high-level workflow");
-        System.out.println("- Each extracted method has single responsibility");
-        System.out.println("- Individual behaviors can be tested separately");
-        System.out.println("- Changes to specific logic are isolated");
+        SwitchStatementsSmell processor = new SwitchStatementsSmell();
+        
+        System.out.println("Processing Regular Customer:");
+        processor.processCustomer("REGULAR", 100.0);
+        
+        System.out.println("\nProcessing Premium Customer:");
+        processor.processCustomer("PREMIUM", 200.0);
+        
+        System.out.println("\nProcessing VIP Customer:");
+        processor.processCustomer("VIP", 300.0);
     }
     
     /**
-     * Demonstrates comparison between smell and refactored versions.
+     * Demonstrates the refactored solution using Replace Conditional with Polymorphism.
      */
-    private static void demonstrateComparison() {
-        System.out.println("🔄 COMPARISON: SMELL vs REFACTORED");
-        System.out.println("----------------------------------");
-        System.out.println("Both implementations produce identical results\n");
+    private static void demonstrateSwitchStatementsRefactored() {
+        System.out.println("✅ SWITCH STATEMENTS REFACTORED");
         
-        LongMethodSmell smellProcessor = new LongMethodSmell();
-        LongMethodRefactored refactoredProcessor = new LongMethodRefactored();
+        SwitchStatementsRefactored processor = new SwitchStatementsRefactored();
         
-        // Create identical test data
-        Customer customer = new Customer("C003", "Test Customer", "test@example.com", true);
-        Order smellOrder = new Order("O003", customer);
-        Order refactoredOrder = new Order("O004", customer);
+        System.out.println("Processing Regular Customer:");
+        SwitchStatementsRefactored.RegularCustomer regularCustomer = new SwitchStatementsRefactored.RegularCustomer("John Doe");
+        processor.processCustomer(regularCustomer, 100.0);
         
-        OrderItem item1 = new OrderItem("P005", "Product 1", 500.00, 2);
-        OrderItem item2 = new OrderItem("P006", "Product 2", 300.00, 1);
+        System.out.println("\nProcessing Premium Customer:");
+        SwitchStatementsRefactored.PremiumCustomer premiumCustomer = new SwitchStatementsRefactored.PremiumCustomer("Jane Smith");
+        processor.processCustomer(premiumCustomer, 200.0);
         
-        smellOrder.addItem(item1);
-        smellOrder.addItem(item2);
-        refactoredOrder.addItem(item1);
-        refactoredOrder.addItem(item2);
-        
-        System.out.println("Processing with Long Method Smell:");
-        smellProcessor.processOrder(smellOrder);
-        System.out.println("Result: $" + smellOrder.getTotal() + " | Status: " + smellOrder.getStatus());
-        
-        System.out.println("\nProcessing with Refactored Version:");
-        refactoredProcessor.processOrder(refactoredOrder);
-        System.out.println("Result: $" + refactoredOrder.getTotal() + " | Status: " + refactoredOrder.getStatus());
-        
-        System.out.println("\n✅ Comparison Results:");
-        System.out.println("- Both produce identical results: $" + smellOrder.getTotal());
-        System.out.println("- Both set status to: " + smellOrder.getStatus());
-        System.out.println("- Refactored version maintains same functionality");
-        System.out.println("- Refactored version is more maintainable and testable");
-        
-        System.out.println("\n🎯 Key Takeaway:");
-        System.out.println("Extract Method refactoring improves code quality without changing behavior.");
-        System.out.println("The refactored version is easier to understand, test, and maintain.");
+        System.out.println("\nProcessing VIP Customer:");
+        SwitchStatementsRefactored.VipCustomer vipCustomer = new SwitchStatementsRefactored.VipCustomer("Bob Wilson");
+        processor.processCustomer(vipCustomer, 300.0);
     }
 }
