@@ -25,6 +25,7 @@ This project serves as an educational resource for learning clean code principle
 
 ### Bloaters
 - **Long Method**: Extract Method refactoring to break down complex methods
+- **Long Parameter List**: Introduce Parameter Object refactoring to group related parameters
 
 ### Object-Oriented Abusers
 - **Switch Statements**: Replace Conditional with Polymorphism to eliminate switch statements
@@ -59,7 +60,8 @@ clean-code/
 └── src/main/java/com/cleancode/
     ├── domain/
     ├── bloaters/
-    │   └── longmethod/
+    │   ├── longmethod/
+    │   └── longparameterlist/
     ├── objectorientedabusers/
     │   └── switchstatements/
     ├── changepreventers/
@@ -150,6 +152,9 @@ mvn test
 ```bash
 # Long Method Code Smell
 mvn test -Dtest=LongMethodTest
+
+# Long Parameter List Code Smell
+mvn test -Dtest=LongParameterListTest
 
 # Switch Statements Code Smell
 mvn test -Dtest=SwitchStatementsTest
